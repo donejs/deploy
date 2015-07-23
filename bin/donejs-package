@@ -3,10 +3,11 @@
 var args = require("command-line-args");
 var cli = args([
 	{ name: "help",  alias: "h", type: Boolean, description: "Print usage instructions" },
-	{ name: "dir",   alias: "d", type: String,  description: "The relative path of the build directory", defaultOption: true }
+	{ name: "dir",   alias: "d", type: String,  description: "The relative path of the build directory", defaultOption: true },
+	{ name: "files", alias: "f", type: Array,   description: "Files to be copied to the build directory (default: package.json 'files')" }
 ]);
 var usage = cli.getUsage({
-	header: "donejs-package - Packages up assets not included during the build process.",
+	header: "donejs-package - Copies required assets not included during the build process.",
 	footer: "\n  For more information, visit http://donejs.com"
 });
 
