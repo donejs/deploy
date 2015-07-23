@@ -1,23 +1,30 @@
 #!/usr/bin/env node
 
-// Usage:
-//   donejs-package build_directory
-//   donejs-package --dir dist/bundles
-var fs = require("fs"),
-	package = require("../package");
+var args = require("command-line-args"),
+	package = require("../lib/package");
 
-// expected to be run like so:
-//   ./node_modules/.bin/donejs-package dist/bundles
-// given the above command, process.argv will look like so:
-//	 [ '/Users/mark/.nvm/versions/io.js/v2.4.0/bin/iojs',
-//     '/Users/mark/.nvm/versions/io.js/v2.4.0/bin/donejs-deploy',
-//     'dist/bundles' ]
-// therefore we need to make sure that process.argv.length has a length
-// of at least 3
-if (process.argv.length < 3) {
-	process.stderr.write("'donejs-package' requires the destination directory to be passed as an argument.");
+var cli = args([
+	{ name: "help", alias: "h", type: Boolean, description: "Print usage instructions" },
+	{ name: "dir",  alias: "d", type: String,  description: "The build directory", defaultOption: true }
+]);
+var usage = cli.getUsage({
+	header: "donejs-package - Packages up assets not included during the build process.",
+	footer: "\n  For more information, visit http://donejs.com"
+});
+
+var options = {};
+try {
+	options = cli.parse();
+} catch (e) {
+	console.error(e.message);
 	process.exit(1);
 }
 
-// here we will call the package command exported from lib/package.js
-package(destintion);
+if (options.help) { console.log(usage); process.exit(0); }
+if (!Object.keys(options).length || !options.dir) {
+	console.error("donejs-package requires a destination directory to be specified.")
+	process.exit(1);
+}
+
+package(options.dir);
+process.exit(0);

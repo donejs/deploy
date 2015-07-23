@@ -32,6 +32,7 @@
     "donejs-deploy": "bin/donejs-deploy.js"
   },
   "dependencies": {
+    "command-line-args": "^0.5.9",
     "mocha": "^2.2.5"
   }
 }
