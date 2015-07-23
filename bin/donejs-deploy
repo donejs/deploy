@@ -24,8 +24,7 @@ try {
 	if (!options.dir) { throw new Error("a destination directory must be specified."); }
 	require("../lib/package")(options.dir);
 } catch (e) {
-	console.error("ERROR: " + e.message);
-	console.log(usage);
+	console.error("ERROR -- " + e.message);
 	process.exit(1);
 }
 
