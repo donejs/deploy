@@ -1,0 +1,36 @@
+{
+  "name": "donejs-deploy",
+  "version": "0.1.0",
+  "description": "",
+  "main": "donejs-deploy.js",
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/donejs/deploy.git"
+  },
+  "keywords": [
+    "DoneJS",
+    "StealJS"
+  ],
+  "author": {
+    "name": "Bitovi",
+    "email": "contact@bitovi.com",
+    "web": "http://bitovi.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/donejs/deploy/issues"
+  },
+  "homepage": "https://github.com/donejs/deploy#readme",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "bin": {
+    "donejs-deploy": "bin/donejs-deploy.js"
+  },
+  "dependencies": {
+    "mocha": "^2.2.5"
+  }
+}
