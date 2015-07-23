@@ -28,6 +28,7 @@
     "node": ">=0.10.0"
   },
   "bin": {
+    "donejs-package": "bin/donejs-package.js",
     "donejs-deploy": "bin/donejs-deploy.js"
   },
   "dependencies": {

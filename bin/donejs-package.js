@@ -1,7 +1,10 @@
 #!/usr/bin/env node
-// donejs-package <directory>
 
-var fs = require("fs");
+// Usage:
+//   donejs-package build_directory
+//   donejs-package --dir dist/bundles
+var fs = require("fs"),
+	package = require("../package");
 
 // expected to be run like so:
 //   ./node_modules/.bin/donejs-package dist/bundles
@@ -16,17 +19,5 @@ if (process.argv.length < 3) {
 	process.exit(1);
 }
 
-var destination = process.argv[2];
-try {
-	var stats = fs.lstatSync(destination);
-	if (!stats.isDirectory()) {
-		process.stdout.write("'" + destination + "' is not a directory.");
-		process.exit(1);
-	}
-} catch (e) {
-	process.stderr.write("Unable to get information about the destination directory.");
-	process.exit(1);
-}
-
-// copy the files listed in the package.json "files" property
-// to a directory given as a command line argument
+// here we will call the package command exported from lib/package.js
+package(destintion);
