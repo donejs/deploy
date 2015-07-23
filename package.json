@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "command-line-args": "^0.5.9",
+    "fs-extra": "^0.22.1",
     "mocha": "^2.2.5"
   }
 }
