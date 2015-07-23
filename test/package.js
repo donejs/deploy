@@ -25,14 +25,14 @@ describe("donejs-package: command line argument validation", function() {
 			callback(done, 1));
 	});
 
-	it("should exit when the destination directory doesn't exist (-d)", function(done) {
+	it("should be able to use -d to specify a destination directory", function(done) {
 		var cmd = exec("node ../bin/donejs-deploy -d dist/bundles", {
 				cwd: __dirname
 			},
 			callback(done, 1));
 	});
 
-	it("should exit when the destination directory doesn't exist (--dir)", function(done) {
+	it("should be able to use --dir to specify a destination directory", function(done) {
 		var cmd = exec("node ../bin/donejs-deploy --dir dist/bundles", {
 				cwd: __dirname
 			},
