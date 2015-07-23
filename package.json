@@ -28,8 +28,8 @@
     "node": ">=0.10.0"
   },
   "bin": {
-    "donejs-package": "bin/donejs-package.js",
-    "donejs-deploy": "bin/donejs-deploy.js"
+    "donejs-package": "bin/donejs-package",
+    "donejs-deploy": "bin/donejs-deploy"
   },
   "dependencies": {
     "command-line-args": "^0.5.9",

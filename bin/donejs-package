@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-var args = require("command-line-args"),
-	package = require("../lib/package");
-
+var args = require("command-line-args");
 var cli = args([
 	{ name: "help", alias: "h", type: Boolean, description: "Print usage instructions" },
 	{ name: "dir",  alias: "d", type: String,  description: "The build directory", defaultOption: true }
@@ -12,6 +10,8 @@ var usage = cli.getUsage({
 	footer: "\n  For more information, visit http://donejs.com"
 });
 
+// If an argument is specified, but not accepted an error is thrown
+// and caught here
 var options = {};
 try {
 	options = cli.parse();
@@ -21,10 +21,12 @@ try {
 }
 
 if (options.help) { console.log(usage); process.exit(0); }
-if (!Object.keys(options).length || !options.dir) {
-	console.error("donejs-package requires a destination directory to be specified.")
+try {
+	if (!options.dir) { throw new Error("a destination directory must be specified."); }
+	require("../lib/package")(options.dir);
+} catch (e) {
+	console.error("ERROR: " + e.message);
+	console.log(usage);
 	process.exit(1);
 }
-
-package(options.dir);
 process.exit(0);
