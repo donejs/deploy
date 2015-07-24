@@ -13,7 +13,7 @@ var cli = args([
 		description: "Files to be copied to the build directory (default: package.json 'files')"
 	},{
 		name: "service", alias: "s", type: String,
-		description: "Where to deploy your application (options: heroku)"
+		description: "To which service will you deploy your application"
 	},{
 		name: "token", alias: "t", type: String,
 		description: "(heroku) The Heroku API token"
@@ -24,8 +24,6 @@ var usage = cli.getUsage({
 	footer: "\n  For more information, visit http://donejs.com"
 });
 
-// If an argument is specified, but not accepted an error is thrown
-// and caught here
 var options = {};
 try {
 	options = cli.parse();
@@ -40,7 +38,7 @@ try {
 	if (!options.dir) {
 		throw new Error("a destination directory must be specified.");
 	}
-	require("../lib/package")(options.dir, options.files);
+	require("../lib/package").package(options.files, options.dir);
 
 	if (!options.service) {
 		throw new Error("a deployment service must be specified.");

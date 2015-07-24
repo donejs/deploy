@@ -19,12 +19,10 @@ var usage = cli.getUsage({
 	footer: "\n  For more information, visit http://donejs.com"
 });
 
-// If an argument is specified, but not accepted an error is thrown
-// and caught here
 var options = {};
 try {
 	options = cli.parse();
-	if (!Object.keys(options).lenght) { console.log(usage); process.exit(0); }
+	if (!Object.keys(options).length) { console.log(usage); process.exit(0); }
 } catch (e) {
 	console.error(e.message);
 	process.exit(1);
@@ -35,7 +33,7 @@ try {
 	if (!options.dir) {
 		throw new Error("a destination directory must be specified.");
 	}
-	require("../lib/package")(options.dir, options.files);
+	require("../lib/package").package(options.files, options.dir);
 } catch (e) {
 	console.error("ERROR -- " + e.message);
 	process.exit(1);
