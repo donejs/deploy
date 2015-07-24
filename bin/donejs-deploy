@@ -2,7 +2,8 @@
 
 var args = require("command-line-args");
 var cli = args([
-	{ name: "help", alias: "h", type: Boolean, description: "Print usage instructions" },
+	{ name: "help", alias: "h", type: Boolean,
+	  description: "Print usage instructions" },
 ]);
 var usage = cli.getUsage({
 	header: "donejs-deploy - Deploys your production-ready application to a hosting service.",
@@ -21,7 +22,9 @@ try {
 
 if (options.help) { console.log(usage); process.exit(0); }
 try {
-	if (!options.dir) { throw new Error("a destination directory must be specified."); }
+	if (!options.dir) {
+		throw new Error("a destination directory must be specified.");
+	}
 	require("../lib/package")(options.dir);
 } catch (e) {
 	console.error("ERROR -- " + e.message);

@@ -2,9 +2,16 @@
 
 var args = require("command-line-args");
 var cli = args([
-	{ name: "help",  alias: "h", type: Boolean, description: "Print usage instructions" },
-	{ name: "dir",   alias: "d", type: String,  description: "The relative path of the build directory", defaultOption: true },
-	{ name: "files", alias: "f", type: Array,   description: "Files to be copied to the build directory (default: package.json 'files')" }
+	{ name: "help",  alias: "h",
+	  type: Boolean,
+	  description: "Print usage instructions" },
+	{ name: "dir",   alias: "d",
+	  type: String,
+	  description: "The relative path of the build directory",
+	  defaultOption: true },
+	{ name: "files", alias: "f",
+	  type: Array,
+	  description: "Files to be copied to the build directory (default: package.json 'files')" }
 ]);
 var usage = cli.getUsage({
 	header: "donejs-package - Copies required assets not included during the build process.",
@@ -23,7 +30,9 @@ try {
 
 if (options.help) { console.log(usage); process.exit(0); }
 try {
-	if (!options.dir) { throw new Error("a destination directory must be specified."); }
+	if (!options.dir) {
+		throw new Error("a destination directory must be specified.");
+	}
 	require("../lib/package")(options.dir, options.files);
 } catch (e) {
 	console.error("ERROR -- " + e.message);
