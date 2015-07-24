@@ -11,11 +11,13 @@ var cli = args([
 		defaultOption: true
 	},{
 		name: "files", alias: "f", type: Array,
-		description: "Files to be copied to the build directory (default: package.json 'donejs.glob' property)"
+		description: "Files to be copied to the build directory "
+			+ "(default: package.json 'donejs.glob' property)"
 	}
 ]);
 var usage = cli.getUsage({
-	header: "donejs-package - Copies required assets not included during the build process.",
+	header: "donejs-package - Copies required assets not included "
+		+ "during the build process.",
 	footer: "\n  For more information, visit http://donejs.com"
 });
 
