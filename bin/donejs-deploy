@@ -17,7 +17,7 @@ var commandLineArgs = [
 			+ "(default: package.json 'donejs.glob' property)"
 	},{
 		name: "service", alias: "s", type: String,
-		description: "To which service will you deploy your application"
+		description: "Where you deploy your application"
 	}
 ];
 
