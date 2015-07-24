@@ -1,0 +1,5 @@
+{
+    "donejs": {
+        "glob": "assets/**/*.png"
+    }
+}

@@ -1,1 +1,1 @@
-require("./package");
+require("./test_package");
