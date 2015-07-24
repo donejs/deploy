@@ -50,7 +50,7 @@ try {
 	if (!options.dir) {
 		throw new Error("a destination directory must be specified.");
 	}
-	//require("../lib/package").package(options.files, options.dir);
+	require("../lib/package").package(options.files, options.dir);
 
 	if (!options.service) {
 		throw new Error("a deployment service must be specified.");
