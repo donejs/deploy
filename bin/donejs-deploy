@@ -2,8 +2,22 @@
 
 var args = require("command-line-args");
 var cli = args([
-	{ name: "help", alias: "h", type: Boolean,
-	  description: "Print usage instructions" },
+	{
+		name: "help", alias: "h", type: Boolean,
+		description: "Print usage instructions"
+	},{
+		name: "dir", alias: "d", type: String,
+		description: "The relative path of the build directory"
+	},{
+		name: "files", alias: "f", type: Array,
+		description: "Files to be copied to the build directory (default: package.json 'files')"
+	},{
+		name: "service", alias: "s", type: String,
+		description: "Where to deploy your application (options: heroku)"
+	},{
+		name: "token", alias: "t", type: String,
+		description: "(heroku) The Heroku API token"
+	}
 ]);
 var usage = cli.getUsage({
 	header: "donejs-deploy - Deploys your production-ready application to a hosting service.",
@@ -15,6 +29,7 @@ var usage = cli.getUsage({
 var options = {};
 try {
 	options = cli.parse();
+	if (!Object.keys(options).length) { console.log(usage); process.exit(0); }
 } catch (e) {
 	console.error(e.message);
 	process.exit(1);
@@ -25,7 +40,16 @@ try {
 	if (!options.dir) {
 		throw new Error("a destination directory must be specified.");
 	}
-	require("../lib/package")(options.dir);
+	require("../lib/package")(options.dir, options.files);
+
+	if (!options.service) {
+		throw new Error("a deployment service must be specified.");
+	}
+	switch (options.service.toLowerCase()) {
+		case "heroku":
+			require("../lib/services/deploy-heroku")(options);
+			break;
+	}
 } catch (e) {
 	console.error("ERROR -- " + e.message);
 	process.exit(1);
