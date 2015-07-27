@@ -1,5 +1,11 @@
 {
-    "donejs": {
-        "glob": "assets/**/*.png"
-    }
+	"donejs": {
+		"deploy": {
+			"bundles-path": "dist/bundles",
+			"glob": "assets/**/*.png",
+			"service": {
+
+			}
+		}
+	}
 }
