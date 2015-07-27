@@ -20,17 +20,14 @@ var commandLineArgs = [
 ];
 
 var serviceNames = services.map(function(service) {
-	service.service.args.forEach(function(arg) {
-		commandLineArgs.push(arg);
-	});
 	return service.service.name;
 });
-var serviceHeader = "Available services: " + serviceNames.join(", ");
 
 var cli = args(commandLineArgs);
 var usage = cli.getUsage({
 	header: "donejs-deploy - Deploys your production-ready application "
-		+ "to a hosting service.\n\n  " + serviceHeader,
+		+ "to a hosting service.\n\n  "
+		+ "Available services: " + serviceNames.join(", "),
 	footer: "\n  For more information, visit http://donejs.com"
 });
 
