@@ -28,7 +28,6 @@
     "node": ">=0.10.0"
   },
   "bin": {
-    "donejs-package": "bin/donejs-package",
     "donejs-deploy": "bin/donejs-deploy"
   },
   "dependencies": {
@@ -37,6 +36,7 @@
     "glob": "^5.0.14",
     "heroku-client": "^2.0.0",
     "mkdirp": "^0.5.1",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "packpath": "^0.1.0"
   }
 }
