@@ -34,7 +34,6 @@
     "command-line-args": "^0.5.9",
     "fs-extra": "^0.22.1",
     "glob": "^5.0.14",
-    "heroku-client": "^2.0.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.2.5",
     "packpath": "^0.1.0"
