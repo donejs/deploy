@@ -2,8 +2,6 @@
 var args = require("command-line-args"),
 	services = require("../lib/services");
 
-console.log(services);
-
 var commandLineArgs = [
 	{
 		name: "help", alias: "h", type: Boolean,
