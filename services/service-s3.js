@@ -1,8 +1,9 @@
 var fs = require("fs"),
+	fsx = require("fs-extra"),
 	mimeType = require("node-mime"),
 	q = require("q");
 	AWS = require("aws-sdk"),
-	S3 = new AWS.S3({apiVersion: '2006-03-01'});
+	S3 = new AWS.S3({apiVersion: "2006-03-01"});
 
 module.exports = {
 	properties: [{
@@ -10,10 +11,11 @@ module.exports = {
 		desc: "The name of your S3 bucket"
 	}, {
 		name: "config-path",
-		desc: "Relative path to the file containing the object: {accessKeyId, secretAccessKey, region}."
+		desc: "Relative path to the file containing the object: "
+			+ "{accessKeyId, secretAccessKey}."
 	}],
 
-	deploy: function(options, error) {
+	deploy: function(options, files, error) {
 		var bucketExists = function(bucketName) {
 			console.log("Checking for the existence of " + bucketName);
 
@@ -41,19 +43,40 @@ module.exports = {
 		};
 
 		var uploadFile = function(path, bucket) {
-			var fileBuffer = fs.readFileSync(path);
-			var contentType = mimeType.lookup(path);
-
 			S3.putObject({
 				ACL: "public-read",
 				Bucket: bucket,
 				Key: path,
-				Body: fileBuffer,
-				ContentType: contentType
-			}, function(error, data) {
+				Body: fs.readFileSync(path),
+				ContentType: mimeType.lookup(path)
+			}, function(err, data) {
+				if (err) { error(err); }
 				console.log("Uploaded: " + path);
-				console.log(arguments);
 			});
 		};
+
+		var uploadFiles = function(files, bucket) {
+			files.forEach(function(file) {
+				uploadFile(file, bucket);
+			});
+		};
+
+		try {
+			AWS.config.loadFromPath(options["config-path"]);
+		} catch (e) {
+			error(e.message);
+		}
+
+		var bucket = options["bucket"];
+		bucketExists(bucket).then(function(value){
+			uploadFiles(files, bucket);
+		}, function(err) {
+			console.log(err);
+			createBucket(options["bucket"]).then(function(value) {
+				uploadFiles(files, bucket);
+			}, function(err) {
+				error(err);
+			});
+		});
 	}
 }
