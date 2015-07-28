@@ -7,7 +7,7 @@ var fs = require("fs"),
 module.exports = {
 	properties: ["bucket", "config-path"],
 
-	deploy: function(options, Error) {
+	deploy: function(options, error) {
 		var bucketExists = function(bucketName) {
 			console.log("Checking for the existence of " + bucketName);
 

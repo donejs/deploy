@@ -1,43 +1,25 @@
 #!/usr/bin/env node
 var fsx = require("fs-extra"),
 	packpath = require("packpath"),
+	error = require("../lib/error"),
 	bundle = require("../lib/package").package,
 	services = require("../lib/services");
 
-try {
-	var packageJSON = fsx.readJsonSync(packpath.self() + "/package.json");
-	donejsDeploy = {};
-	if (packageJSON && packageJSON.donejs && packageJSON.donejs.deploy) {
-		donejsDeploy = packageJSON.donejs.deploy;
-		//bundle(donejsDeploy);
-	} else {
-		throw new Error("donejs section of package.json requires a "
-			+ " 'deploy' property");
-	}
-
-	var selected = null;
-	if (donejsDeploy.services) {
-		if (process.argv.length > 2) {
-			var name = process.argv[2];
-			selected =
-				services.selected(name, donejsDeploy.services, services.list());
-		} else {
-			selected =
-				services.selected(null, donejsDeploy.services, services.list());
-		}
-	} else {
-		throw new Error("donejs.deploy section of package.json requires a "
-			+ " 'services' property");
-	}
-
-	if (!selected) {
-		throw new Error("the service you specified is not available");
-	} else {
-		selected.service.deploy(selected.config, function(msg) {
-			throw new Error(msg);
-		});
-	}
-} catch (e) {
-	console.error("ERROR -- " + e.message);
-	process.exit(1);
+var packageJSON = fsx.readJsonSync(packpath.self() + "/package.json");
+if (!packageJSON || !packageJSON.donejs || !packageJSON.donejs.deploy) {
+	error("the donejs section of package.json requires a 'deploy' property");
 }
+
+var deploy = packageJSON.donejs.deploy;
+if (!deploy.services) {
+	error("donejs.deploy section of package.json requires a 'services' property");
+}
+
+var deployName = (process.argv.length > 2) ? process.argv[2] : null;
+selected = services.selected(deployName, deploy.services, services.list(), error);
+if (!selected) {
+	error("the service you specified is not available");
+}
+
+bundle(deploy, error);
+selected.service.deploy(selected.config, error);
