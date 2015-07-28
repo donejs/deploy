@@ -5,7 +5,13 @@ var fs = require("fs"),
 	S3 = new AWS.S3({apiVersion: '2006-03-01'});
 
 module.exports = {
-	properties: ["bucket", "config-path"],
+	properties: [{
+		name: "bucket",
+		desc: "The name of your S3 bucket"
+	}, {
+		name: "config-path",
+		desc: "Relative path to the file containing the object: {accessKeyId, secretAccessKey, region}."
+	}],
 
 	deploy: function(options, error) {
 		var bucketExists = function(bucketName) {
