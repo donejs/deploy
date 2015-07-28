@@ -3,8 +3,7 @@ var package = require("../lib/package").package;
 	services = require("../lib/services");
 
 try {
-	var filename = "test/test.package.json";
-	package(filename);
+	package("package.json");
 
 	var selectedService = null;
 	services.forEach(function(service) {
