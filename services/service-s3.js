@@ -16,7 +16,7 @@ module.exports = {
 
 	deploy: function(options, files, error) {
 		var bucketExists = function(bucketName) {
-			console.log("Checking for the existence of " + bucketName);
+			console.log("Checking for bucket: '" + bucketName + "'");
 
 			var deferred = q.defer();
 			S3.headBucket({
@@ -50,11 +50,12 @@ module.exports = {
 				ContentType: mimeType.lookup(path)
 			}, function(err, data) {
 				if (err) { error(err); }
-				console.log("Uploaded: " + path);
+				console.log("  + " + path);
 			});
 		};
 
 		var uploadFiles = function(files, bucket) {
+			console.log("Uploading:");
 			files.forEach(function(file) {
 				uploadFile(file, bucket);
 			});
