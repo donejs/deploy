@@ -1,55 +1,10 @@
 #!/usr/bin/env node
-var args = require("command-line-args"),
+var package = require("../lib/package").package;
 	services = require("../lib/services");
 
-var commandLineArgs = [
-	{
-		name: "help", alias: "h", type: Boolean,
-		description: "Print usage instructions"
-	},{
-		name: "dir", alias: "d", type: String,
-		description: "The relative path of the build directory"
-	},{
-		name: "files", alias: "f", type: Array,
-		description: "Files to be copied to the build directory "
-			+ "(default: package.json 'donejs.glob' property)"
-	},{
-		name: "service", alias: "s", type: String,
-		description: "Where you deploy your application"
-	}
-];
-
-var serviceNames = services.map(function(service) {
-	return service.service.name;
-});
-
-var cli = args(commandLineArgs);
-var usage = cli.getUsage({
-	header: "donejs-deploy - Deploys your production-ready application "
-		+ "to a hosting service.\n\n  "
-		+ "Available services: " + serviceNames.join(", "),
-	footer: "\n  For more information, visit http://donejs.com"
-});
-
-var options = {};
 try {
-	options = cli.parse();
-	if (!Object.keys(options).length) { console.log(usage); process.exit(0); }
-} catch (e) {
-	console.error("ERROR -- " + e.message);
-	process.exit(1);
-}
-
-if (options.help) { console.log(usage); process.exit(0); }
-try {
-	if (!options.dir) {
-		throw new Error("a destination directory must be specified.");
-	}
-	require("../lib/package").package(options.files, options.dir);
-
-	if (!options.service) {
-		throw new Error("a deployment service must be specified.");
-	}
+	var filename = "test/test.package.json";
+	package(filename);
 
 	var selectedService = null;
 	services.forEach(function(service) {
@@ -60,7 +15,9 @@ try {
 	if (!selectedService) {
 		throw new Error("the service you specified is not available");
 	} else {
-		selectedService.service.deploy(options);
+		selectedService.service(options, function(msg) {
+			throw new Error(msg);
+		});
 	}
 } catch (e) {
 	console.error("ERROR -- " + e.message);
