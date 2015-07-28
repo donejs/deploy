@@ -1,9 +1,8 @@
 var fs = require("fs"),
-	fsx = require("fs-extra"),
-	mimeType = require("node-mime"),
+	path = require("path"),
+	mimeType = require("mime"),
 	q = require("q");
-	AWS = require("aws-sdk"),
-	S3 = new AWS.S3({apiVersion: "2006-03-01"});
+	AWS = require("aws-sdk");
 
 module.exports = {
 	properties: [{
@@ -62,18 +61,19 @@ module.exports = {
 		};
 
 		try {
-			AWS.config.loadFromPath(options["config-path"]);
+			AWS.config.loadFromPath(path.resolve(options["config-path"]));
 		} catch (e) {
 			error(e.message);
 		}
+
+		S3 = new AWS.S3();
 
 		var bucket = options["bucket"];
 		bucketExists(bucket).then(function(value){
 			uploadFiles(files, bucket);
 		}, function(err) {
-			console.log(err);
 			createBucket(options["bucket"]).then(function(value) {
-				uploadFiles(files, bucket);
+				uploadFiles(files, bucket)
 			}, function(err) {
 				error(err);
 			});
