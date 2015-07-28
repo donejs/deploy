@@ -1,12 +1,17 @@
 #!/usr/bin/env node
-var package = require("../lib/package").package;
+var package = require("../lib/package").package,
 	services = require("../lib/services");
 
 try {
-	package("package.json");
+	var packageJSON = fsx.readJsonSync(packpath.self() + "/package.json");
+	var donejsDeploy = {};
+	if (packageJSON && packageJSON.donejs && packageJSON.donejs.deploy) {
+		donejsDeploy = packageJSON.donejs.deploy;
+	}
+	package(donejsDeploy);
 
 	var selectedService = null;
-	services.forEach(function(service) {
+	services.serviceList().forEach(function(service) {
 		if (service.name === options.service.toLowerCase()) {
 			selectedService = service;
 		}

@@ -35,6 +35,7 @@
     "command-line-args": "^0.5.9",
     "fs-extra": "^0.22.1",
     "glob": "^5.0.14",
+    "lodash": "^3.10.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.2.5",
     "node-mime": "^1.0.0",
