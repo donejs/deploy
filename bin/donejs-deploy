@@ -21,5 +21,7 @@ if (!selected) {
 	error("the service you specified is not available");
 }
 
+console.log("donejs - deploying to '" + selected.config.type + "'");
+
 var files = bundle(deploy, error);
 selected.service.deploy(selected.config, files, error);

@@ -16,7 +16,7 @@ module.exports = {
 
 	deploy: function(options, files, error) {
 		var bucketExists = function(bucketName) {
-			console.log("Checking for bucket: '" + bucketName + "'");
+			console.log("Checking for S3 Bucket: '" + bucketName + "'");
 
 			var deferred = q.defer();
 			S3.headBucket({
@@ -29,7 +29,8 @@ module.exports = {
 		};
 
 		var createBucket = function(bucketName) {
-			console.log("Bucket not found. Creating bucket " + bucketName);
+			console.log("Bucket not found. Creating S3 Bucket: '"
+				+ bucketName + "'");
 
 			var deferred = q.defer();
 			S3.createBucket({
