@@ -8,7 +8,7 @@ module.exports = {
 				"services": {
 					"production": {
 						"type": "s3",
-						"bucket": "donejs.deploy"
+						"bucket": "donejs.deploy",
 						"config-path": "path/to/config/file",
 						"default": true
 					}
