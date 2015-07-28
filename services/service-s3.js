@@ -7,7 +7,7 @@ var fs = require("fs"),
 module.exports = {
 	properties: [{
 		name: "bucket",
-		desc: "The name of your S3 bucket"
+		desc: "The name of your S3 bucket."
 	}, {
 		name: "config-path",
 		desc: "Relative path to the file containing the object: "
