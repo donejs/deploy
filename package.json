@@ -4,7 +4,7 @@
   "description": "",
   "main": "donejs-deploy.js",
   "scripts": {
-    "test": "mocha test/test.js"
+    "test": "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -37,22 +37,7 @@
     "lodash": "^3.10.0",
     "mime": "^1.3.4",
     "mkdirp": "^0.5.1",
-    "mocha": "^2.2.5",
     "path-parse": "^1.0.5",
     "q": "^1.4.1"
-  },
-  "donejs": {
-    "deploy": {
-      "dest": "dist/bundles",
-      "glob": "test/assets/**/*.png",
-      "services": {
-        "production": {
-          "type": "s3",
-          "bucket": "donejs.deploy",
-          "configPath": "./aws.s3.json",
-          "default": true
-        }
-      }
-    }
   }
 }
