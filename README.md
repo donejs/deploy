@@ -13,16 +13,16 @@ Here is a sample configuration for deploying to Amazon's S3. All `deploy` config
 
 ```json
 "deploy": {
-	"bundles-path": "dist",
+	"dest": "dist",
 	"glob": "test/assets/**/*.png",
 	"services": {
 	}
 }
 ```
 
->`deploy.bundles-path` *{String="dist/bundles"}*
+>`deploy.dest` *{String="dist/bundles"}*
 
-The relative destination directory for your static assets not bundled by building with [StealJS Tools](http://stealjs.com/docs/steal-tools.html).  This should be the same value as `bundlesPath` in your `stealTools.build` function.
+The relative destination directory for your static assets not bundled by building with [StealJS Tools](http://stealjs.com/docs/steal-tools.html).  This should be the same value as `dest` in your `stealTools.build` function.
 
 >`deploy.glob` *{String | Object | Array [Object|String]}*
 
@@ -106,7 +106,7 @@ This is the configuration object of the selected service.
 
 > `files` *{Array [String]}*
 
-The files moved to the `bundles-path`.
+The files moved to the directory configured by the `dest` property.
 
 > `error` *{Function(message)}*
 

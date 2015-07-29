@@ -3,7 +3,7 @@ module.exports = {
 	"string": {
 		"donejs": {
 			"deploy": {
-				"bundles-path": "dist/bundles",
+				"dest": "dist/bundles",
 				"glob": "assets/**/*.png",
 				"services": {
 					"production": {
