@@ -24,10 +24,16 @@ Here is a sample configuration for deploying to Amazon's S3. All `deploy` config
 }
 ```
 
-`deploy.dest` *{String}* - is the relative destination directory for your static assets not bundled by building with [StealJS Tools](http://stealjs.com/docs/steal-tools.html).  This should be the same value as `bundlesPath` in your `stealTools.build` function.
+>`deploy.dest` *{String}*
 
-`deploy.glob` *{String | Object | Array}* - the glob pattern used to find files to move to `deploy.bundlesPath`. When using objects as the value refer to the [globObject](http://documentjs.com/docs/documentjs.find.globObject.html) documentation.
+The relative destination directory for your static assets not bundled by building with [StealJS Tools](http://stealjs.com/docs/steal-tools.html).  This should be the same value as `bundlesPath` in your `stealTools.build` function.
 
-`deploy.services` *{Object}* - An object where each property is the name of a service that can be used as an argument to `donejs deploy <service>`.
+>`deploy.glob` *{String | Object | Array}*
+
+The glob pattern used to find files to move to `deploy.bundlesPath`. When using objects as the value refer to the [globObject](http://documentjs.com/docs/documentjs.find.globObject.html) documentation.
+
+>*`deploy.services` *{Object}*
+
+An object where each property is the name of a service that can be used as an argument to `donejs deploy <service>`.
 
 The properties in each `service` object are specific to each service with the expection of `type` and `default`.
