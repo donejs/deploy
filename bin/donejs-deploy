@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 var fsx = require("fs-extra"),
-	packpath = require("packpath"),
 	error = require("../lib/error"),
 	bundle = require("../lib/package").package,
 	services = require("../lib/services");
 
-var packageJSON = fsx.readJsonSync(packpath.self() + "/package.json");
+var packageJSON = fsx.readJsonSync(process.cwd() + "/package.json");
 if (!packageJSON || !packageJSON.donejs || !packageJSON.donejs.deploy) {
 	error("the donejs section of package.json requires a 'deploy' property");
 }
