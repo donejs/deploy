@@ -70,6 +70,15 @@ The name of the S3 bucket. If one is not created on S3, a bucket will be created
 
 > `services.<service name>.configPath` *{String}*
 
-The relative path to a file containing the two authentication properties: accessKeyId and secretAccessKey. Read [Configuring the SDK in Node.js](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html) for more information about this topic.
+The relative path to a file containing the two authentication properties: accessKeyId and secretAccessKey.  For example, `./aws.s3.json` would contain something like:
+
+```json
+{
+	"accessKeyId": "KFJSKJD9234DSFI",
+	"secretAccessKey": "6f5902ac237024bdd0c176cb93063dc4"
+}
+```
+
+Read [Configuring the SDK in Node.js](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html) for more information about this topic.
 
 ## Writing a New Service
