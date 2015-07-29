@@ -47,7 +47,7 @@ module.exports = {
 		}
 		var service = this._service(available, selected);
 		if (!service) {
-			error("'"+  selected.type +"' is not supported. ")
+			error("'"+  selected.type + "' is not supported.")
 		}
 		return {
 			service: service, config:
