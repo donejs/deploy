@@ -52,21 +52,11 @@ The service that you want to deploy to. There is currently only one option for t
 
 A service that is marked as default is loaded when no argument is provided to the `donejs deploy` command. If there are multiple objects with `default` properties that are true, the first one is loaded.
 
-Here is how a service is selected:
-1. If a service is provided as a command line argument, look it up as a property on the `services` object.
-	1. If the property exists, use that property's value.
-	2. If the property does not exist, assume that no argument was provided on the command line.
-2. If no service argument is provided on the command line.
-	1. Gather all services where the property `default` is `true`.
-		1. If there is only one object, use that object.
-		2. If there is more than one object, use the first object.
-		3. If there are no objects with a `default` property with a value of `true`.
-			1. Use the first service object in `package.deploy.services`.
-
 ### S3 Configuration Options
 > `services.<service name>.bucket` *{String}*
 
-The name of the S3 bucket. If one is not created on S3, a bucket will be created with the name provided.
+The name of the S3 bucket. If one is not created on S3, a bucket will be created with the name provided. If this property is not provided the value
+of the `name` property in `package.json` is used as default.
 
 > `services.<service name>.configPath` *{String}*
 
@@ -78,6 +68,7 @@ The relative path to a file containing the two authentication properties: access
 	"secretAccessKey": "6f5902ac237024bdd0c176cb93063dc4"
 }
 ```
+If this property is not provided the default behavior is to read `S3_ACCESS_KEY_ID` and `S3_SECRET_ACCESS_KEY` from the nodejs environment.
 
 Read [Configuring the SDK in Node.js](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html) for more information about this topic.
 
@@ -95,6 +86,14 @@ The name of a configuration property required by this service type.
 > `properties[].desc` *{String}*
 
 The description of the named property.  This is output to the console when the usage is displayed.
+
+> `properties[].default` *{Function| String | Number | Boolean | Array}*
+
+This value is used by the service if the property does not exist in the selected service object.
+If the value of `default` is a function, the property will validate as long as the function returns
+a truthy value. In the function, `this.env` can be used to access the process environment, and
+`this.pkg` can be used to access the package.json object. The default value or value returned by the
+function will be placed on the service object so that it can be accessed with the property name expected.
 
 > `deploy` *{Function(options, files, err)}*
 

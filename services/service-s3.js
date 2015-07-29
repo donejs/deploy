@@ -1,5 +1,6 @@
 var fs = require("fs"),
 	path = require("path"),
+	_ = require("lodash"),
 	mimeType = require("mime"),
 	q = require("q");
 	AWS = require("aws-sdk");
@@ -7,11 +8,23 @@ var fs = require("fs"),
 module.exports = {
 	properties: [{
 		name: "bucket",
-		desc: "The name of your S3 bucket."
+		desc: "The name of your S3 bucket. It will be created if it doesn't exist.",
+		default: function() {
+			if (this.pkg.name) { return this.pkg.name; }
+			return false;
+		}
 	}, {
-		name: "configPath",
-		desc: "Relative path to the file containing the object: "
-			+ "{accessKeyId, secretAccessKey}."
+		name: "credentials",
+		desc: "The relative path to the file containing the object: {accessKeyId, secretAccessKey}.",
+		default: function() {
+			if (this.env.S3_ACCESS_KEY_ID && this.env.S3_SECRET_ACCESS_KEY) {
+				return {
+					"accessKeyId": process.env.S3_ACCESS_KEY_ID,
+					"secretAccessKey": process.env.S3_SECRET_ACCESS_KEY
+				};
+			}
+			return false;
+		}
 	}],
 
 	deploy: function(options, files, error) {
@@ -63,7 +76,15 @@ module.exports = {
 		};
 
 		try {
-			AWS.config.loadFromPath(path.resolve(options["configPath"]));
+			var creds = options["credentials"];
+			if (_.isString(creds)) {
+				AWS.config.loadFromPath(path.resolve(creds));
+			} else {
+				AWS.config.update({
+					accessKeyId: creds.accessKeyId,
+					secretAccessKey: creds.secretAccessKey
+				});
+			}
 		} catch (e) {
 			error(e.message);
 		}
