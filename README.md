@@ -13,14 +13,14 @@ Here is a sample configuration for deploying to Amazon's S3. All `deploy` config
 
 ```json
 "deploy": {
-	"dest": "dist",
+	"bundles-path": "dist",
 	"glob": "test/assets/**/*.png",
 	"services": {
 	}
 }
 ```
 
->`deploy.dest` *{String="dist/"}*
+>`deploy.bundles-path` *{String="dist/bundles"}*
 
 The relative destination directory for your static assets not bundled by building with [StealJS Tools](http://stealjs.com/docs/steal-tools.html).  This should be the same value as `bundlesPath` in your `stealTools.build` function.
 
@@ -40,7 +40,7 @@ The properties in each `service` object are specific to each service with the ex
 		"type": "s3",
 		"default": true,
 		"bucket": "donejs.deploy",
-		"configPath": "./aws.s3.json"
+		"config-path": "./aws.s3.json"
 	}
 }
 ```
@@ -68,7 +68,7 @@ Here is how a service is selected:
 
 The name of the S3 bucket. If one is not created on S3, a bucket will be created with the name provided.
 
-> `services.<service name>.configPath` *{String}*
+> `services.<service name>.config-path` *{String}*
 
 The relative path to a file containing the two authentication properties: accessKeyId and secretAccessKey.  For example, `./aws.s3.json` would contain something like:
 
