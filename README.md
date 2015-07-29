@@ -1,8 +1,8 @@
 # donejs deploy
 
-* [Configuration](#Configuration)
-	* [S3 Configuration Options](#S3 Configuration Options)
-* [Writing a New Service](#Writing A New Service)
+* [Configuration](#configuration)
+	* [S3 Configuration Options](#s3-configuration-options)
+* [Writing a New Service](#writing-a-new-service)
 
 The `donejs deploy` command allows you to bundle up your static assets not touched during the steal build process and deploy them and your JS bundles to a third-party storage/hosting provider like Amazon's S3.
 
