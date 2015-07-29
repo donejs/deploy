@@ -6,7 +6,7 @@ var path = require("path"),
 
 module.exports = {
 	list: function() {
-		var pattern = __dirname + "/../services/**/service-*.js";
+		var pattern = __dirname + "/services/**/service-*.js";
 		return glob.sync(pattern).map(function(servicePath) {
 			return {
 				type: pathparse(servicePath).name.split("-")[1],

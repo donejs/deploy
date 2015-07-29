@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 var fsx = require("fs-extra"),
 	glob = require("glob"),
-	error = require("../lib/error")
-	services = require("../lib/services");
+	services = require("../services");
+
+var error = function(msg) {
+	console.error("donejs deploy (error) -- " + msg)
+	process.exit(1);
+};
 
 var packageJSON = fsx.readJsonSync(process.cwd() + "/package.json");
 if (!packageJSON || !packageJSON.donejs || !packageJSON.donejs.deploy) {
