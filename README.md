@@ -1,5 +1,9 @@
-donejs deploy
-============
+# donejs deploy
+
+* [Configuration](#Configuration)
+	* [S3 Configuration Options](#S3 Configuration Options)
+* [Writing a New Service](#Writing A New Service)
+
 The `donejs deploy` command allows you to bundle up your static assets not touched during the steal build process and deploy them and your JS bundles to a third-party storage/hosting provider like Amazon's S3.
 
 Deploying your assets can be as simple as typing one command: `donejs deploy [service]`.
@@ -12,7 +16,6 @@ Here is a sample configuration for deploying to Amazon's S3. All `deploy` config
 	"dest": "dist",
 	"glob": "test/assets/**/*.png",
 	"services": {
-		...
 	}
 }
 ```
@@ -69,4 +72,4 @@ The name of the S3 bucket. If one is not created on S3, a bucket will be created
 
 The relative path to a file containing the two authentication properties: accessKeyId and secretAccessKey. Read [Configuring the SDK in Node.js](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html) for more information about this topic.
 
-## Writing A New Service
+## Writing a New Service
