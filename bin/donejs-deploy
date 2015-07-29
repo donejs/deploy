@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var fsx = require("fs-extra"),
-	error = require("../lib/error"),
-	bundle = require("../lib/package").package,
+	glob = require("glob"),
+	error = require("../lib/error")
 	services = require("../lib/services");
 
 var packageJSON = fsx.readJsonSync(process.cwd() + "/package.json");
@@ -22,5 +22,5 @@ if (!selected) {
 
 console.log("donejs - deploying to '" + selected.config.type + "'");
 
-var files = bundle(deploy, error);
+var files = glob.sync((deploy.configPath || "dist") + "/**/*.*");
 selected.service.deploy(selected.config, files, error);
