@@ -24,7 +24,7 @@ Here is a sample configuration for deploying to Amazon's S3. All `deploy` config
 
 The relative destination directory for your static assets not bundled by building with [StealJS Tools](http://stealjs.com/docs/steal-tools.html).  This should be the same value as `bundlesPath` in your `stealTools.build` function.
 
->`deploy.glob` *{String | Object | Array}*
+>`deploy.glob` *{String | Object | Array [Object|String]}*
 
 The glob pattern used to find files to move to `deploy.bundlesPath`. When using objects as the value refer to the [globObject](http://documentjs.com/docs/documentjs.find.globObject.html) documentation.
 
@@ -82,3 +82,32 @@ The relative path to a file containing the two authentication properties: access
 Read [Configuring the SDK in Node.js](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html) for more information about this topic.
 
 ## Writing a New Service
+1. Create a file in the `services` directory where the name of the file matches the following convention: `service-*.js`. The `*` will be used as the value for the `package.donejs.deploy.<service name>.type` property. This file should export two properties: `properties` and `deploy`.
+
+> `properties` *{Array [Object]}*
+
+The `properties` array contains objects with `name` and `desc` properties.
+
+> `properties[].name` *{String}*
+
+The name of a configuration property required by this service type.
+
+> `properties[].desc` *{String}*
+
+The description of the named property.  This is output to the console when the usage is displayed.
+
+> `deploy` *{Function(options, files, err)}*
+
+The deploy is where the service's magic happens.
+
+> `options` *{Object}*
+
+This is the configuration object of the selected service.
+
+> `files` *{Array [String]}*
+
+The files moved to the `bundles-path`.
+
+> `error` *{Function(message)}*
+
+Call this function when an error has occurred and provide the string that should be shown to the user.
