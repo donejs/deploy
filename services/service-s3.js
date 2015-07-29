@@ -9,7 +9,7 @@ module.exports = {
 		name: "bucket",
 		desc: "The name of your S3 bucket."
 	}, {
-		name: "config-path",
+		name: "configPath",
 		desc: "Relative path to the file containing the object: "
 			+ "{accessKeyId, secretAccessKey}."
 	}],
@@ -63,7 +63,7 @@ module.exports = {
 		};
 
 		try {
-			AWS.config.loadFromPath(path.resolve(options["config-path"]));
+			AWS.config.loadFromPath(path.resolve(options["configPath"]));
 		} catch (e) {
 			error(e.message);
 		}
