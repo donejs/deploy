@@ -82,7 +82,7 @@ The relative path to a file containing the two authentication properties: access
 Read [Configuring the SDK in Node.js](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html) for more information about this topic.
 
 ## Writing a New Service
-1. Create a file in the `services` directory where the name of the file matches the following convention: `service-*.js`. The `*` will be used as the value for the `package.donejs.deploy.<service name>.type` property. This file should export two properties: `properties` and `deploy`.
+Create a file in the `services` directory where the name of the file matches the following convention: `service-*.js`. The `*` will be used as the value for the `package.donejs.deploy.<service name>.type` property. This file should export two properties: `properties` and `deploy`.
 
 > `properties` *{Array [Object]}*
 
