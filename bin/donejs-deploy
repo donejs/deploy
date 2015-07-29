@@ -19,7 +19,7 @@ if (!deploy.services) {
 }
 
 var deployName = (process.argv.length > 2) ? process.argv[2] : null;
-selected = services.selected(deployName, deploy.services, services.list(), error);
+selected = services.selected(packageJSON, deployName, deploy.services, services.list(), error);
 if (!selected) {
 	error("the service you specified is not available");
 }

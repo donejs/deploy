@@ -14,7 +14,7 @@ module.exports = {
 			}
 		});
 	},
-	selected: function(specified, configured, available, error) {
+	selected: function(package, specified, configured, available, error) {
 		var selected = (specified && configured[specified])
 				? configured[specified]
 				: _.first(_.filter(_.values(configured), { "default": true }));
@@ -26,14 +26,20 @@ module.exports = {
 			error("'"+  selected.type +"' is not supported. ")
 		}
 
-		var hasProps =
-			_.every(service.properties, function(prop) { return _.has(selected, prop.name)});
-		if (!hasProps) {
-			var required = _.pluck(service.properties, "name").join(", ").trim();
-			error("'" + selected.type + "' requires the following "
-				+ "properties to be configured: " + required);
-		}
-
+		_.map(service.properties, function(prop) {
+			if (!_.get(selected, prop.name)) {
+				var _default = _.get(prop.default);
+				if (_.isFunction(_default)) {
+					_default = _default.call({ env: process.env, pkg: package });
+				}
+				if (!_default) {
+					error("The property '" + prop.name + "' is missing from the selected '"
+						+ selected.type + "' service configuration.");
+				} else {
+					selected[prop.name] = _default;
+				}
+			}
+		});
 		return { service: service, config: selected };
 	}
 }
