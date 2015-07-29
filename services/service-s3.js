@@ -68,13 +68,13 @@ module.exports = {
 			error(e.message);
 		}
 
-		S3 = new AWS.S3();
+		var S3 = new AWS.S3();
 
 		var bucket = options["bucket"];
 		bucketExists(bucket).then(function(value){
 			uploadFiles(files, bucket);
 		}, function(err) {
-			createBucket(options["bucket"]).then(function(value) {
+			createBucket(bucket).then(function(value) {
 				uploadFiles(files, bucket)
 			}, function(err) {
 				error(err);
