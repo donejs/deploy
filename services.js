@@ -16,7 +16,7 @@ module.exports = {
 	_properties: function(service, selected, error) {
 		_.map(service.properties, function(prop) {
 			if (!_.get(selected, prop.name)) {
-				var _default = _.get(prop.default);
+				var _default = _.get(prop, "default");
 				if (_.isFunction(_default)) {
 					_default = _default.call({ env: process.env, pkg: package });
 				}
@@ -49,8 +49,8 @@ module.exports = {
 			error("'"+  selected.type + "' is not supported.")
 		}
 		return {
-			service: service, config:
-			this._properties(service, selected)
+			service: service,
+			config: this._properties(service, selected, error)
 		};
 	}
 }
