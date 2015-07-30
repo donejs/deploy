@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1.40",
+    "divshot-push": "^1.4.2",
     "fs-extra": "^0.22.1",
     "glob": "^5.0.14",
     "lodash": "^3.10.0",
