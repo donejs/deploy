@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-var fsx = require("fs-extra"),
-	glob = require("glob"),
+var glob = require("glob"),
 	services = require("../services");
 
 var error = function(msg) {
@@ -8,7 +7,8 @@ var error = function(msg) {
 	process.exit(1);
 };
 
-var packageJSON = fsx.readJsonSync(process.cwd() + "/package.json");
+
+var packageJSON = require(process.cwd() + "/package.json");
 if (!packageJSON || !packageJSON.donejs || !packageJSON.donejs.deploy) {
 	error("the donejs section of package.json requires a 'deploy' property");
 }

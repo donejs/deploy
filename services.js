@@ -1,6 +1,5 @@
 var path = require("path"),
-	_ = require("lodash"),
-	fsx = require("fs-extra"),
+	_ = require("lodash")
 	glob = require("glob"),
 	pathparse = require("path-parse"),
 	self = this;
