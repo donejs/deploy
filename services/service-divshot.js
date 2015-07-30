@@ -7,10 +7,15 @@ var spawn = require("child_process").spawn,
 var DIVSHOT_USER_CONFIG = process.env.HOME + "/.divshot/config/user.json";
 var DIVSHOT_EXE = process.env.PWD + "/node_modules/.bin/divshot";
 module.exports = {
-	properties: [
-
-	],
-	deploy: function(package, options, files, error) {
+	properties: [{
+		name: "config",
+		desc: "Divshot application configuration data"
+	},{
+		name: "environment",
+		desc: "Environment to push to (production, staging, development). Defaults to 'development'.",
+		default: "development"
+	}],
+	deploy: function(package, deploy, options, files, error) {
 		var promptUserLogin = function() {
 			console.log("\ndonejs was unable to find your Divshot user configuration. So...");
 
@@ -35,7 +40,42 @@ module.exports = {
 		};
 
 		var pushToDivshot = function(token) {
+			var status = push({
+				root: deploy.root,
+				environment: options.environment,
+				config: options.config,
+				token: token
+			});
 
+			status.onEnd(function(data) {
+				console.log("\nApplication deployed to: '" + data.environment + "'.");
+				console.log("You can view your app at the following URL: '" + data.url + "'");
+			});
+
+			status.onApp("create", function(name) {
+				process.stdout.write("App doesn't exist. Creating app: '" + name + "' ... ");
+			}).onApp("end", function() {
+				process.stdout.write("DONE.\n");
+			});
+
+			status.onFinalize("start", function() {
+				process.stdout.write("Finalizing build ... ");
+			}).onFinalize("end", function() {
+				process.stdout.write("DONE.\n");
+			});
+
+			status.onRelease("start", function(env) {
+				process.stdout.write("Releasing build to '" + env + "' ... ");
+			}).onRelease("end", function() {
+				process.stdout.write("DONE.\n");
+			});
+
+			status.onUpload("start", function(count) {
+				console.log("Uploading " + count + " files.");
+			}).onUpload("retry", function(err) {
+				console.log(err);
+				console.log("Retrying ... ");
+			});
 		};
 
 		var token = null;
@@ -45,7 +85,6 @@ module.exports = {
 		} catch (e) {
 			promptUserLogin().then(function(result) {
 				token = require(DIVSHOT_USER_CONFIG).token;
-				pushToDivshot(token);
 			}, function(err) {
 				console.log("\nCompletely understandable, but we are going to need that API token.")
 				console.log("You could always get it yourself. Just do the following:");
@@ -53,5 +92,6 @@ module.exports = {
 				console.log("   2. divshot login");
 			});
 		}
+		pushToDivshot(token);
 	}
 };
