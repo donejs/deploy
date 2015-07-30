@@ -13,20 +13,15 @@ Here is a sample configuration for deploying to Amazon's S3. All `deploy` config
 
 ```json
 "deploy": {
-	"dest": "dist",
-	"glob": "test/assets/**/*.png",
+	"root": "dist",
 	"services": {
 	}
 }
 ```
 
->`deploy.dest` *{String="dist/bundles"}*
+>`deploy.root` *{String="./dist"}*
 
 The relative destination directory for your static assets not bundled by building with [StealJS Tools](http://stealjs.com/docs/steal-tools.html).  This should be the same value as `dest` in your `stealTools.build` function.
-
->`deploy.glob` *{String | Object | Array [Object|String]}*
-
-The glob pattern used to find files to move to `deploy.bundlesPath`. When using objects as the value refer to the [globObject](http://documentjs.com/docs/documentjs.find.globObject.html) documentation.
 
 >`deploy.services` *{Object}*
 
