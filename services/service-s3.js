@@ -27,7 +27,7 @@ module.exports = {
 		}
 	}],
 
-	deploy: function(package, options, files, error) {
+	deploy: function(package, deploy, options, files, error) {
 		var bucketExists = function(bucketName) {
 			console.log("Checking for S3 Bucket: '" + bucketName + "'");
 

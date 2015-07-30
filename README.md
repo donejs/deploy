@@ -90,13 +90,17 @@ a truthy value. In the function, `this.env` can be used to access the process en
 `this.pkg` can be used to access the package.json object. The default value or value returned by the
 function will be placed on the service object so that it can be accessed with the property name expected.
 
-> `deploy` *{Function(package, options, files, err)}*
+> `deploy` *{Function(package, deploy, options, files, err)}*
 
 The deploy is where the service's magic happens.
 
-> `package`
+> `package` *{Object}*
 
 The package.json object. Provided in case there are contextual project values you wish to use.
+
+> `deploy` *{Object}*
+
+The deploy property object of package.json.
 
 > `options` *{Object}*
 

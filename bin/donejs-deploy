@@ -27,4 +27,4 @@ if (!selected) {
 console.log("donejs - deploying to '" + selected.config.type + "'");
 
 var files = glob.sync((deploy.root || "dist") + "/**/*.*");
-selected.service.deploy(packageJSON, selected.config, files, error);
+selected.service.deploy(packageJSON, deploy, selected.config, files, error);
