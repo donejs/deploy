@@ -40,10 +40,21 @@ module.exports = {
 		};
 
 		var pushToDivshot = function(token) {
+			var environment = options.service.environment;
+			if (!environment) {
+				if (_.includes(["development", "staging", "production"], options.name)) {
+					environment = options.name;
+				} else {
+					console.log("An environment was not configured and the config name was not a valid environement.");
+					console.log("Defaulting to deploy to 'development'\n");
+
+					environment = "development";
+				}
+			}
 			var status = push({
 				root: deploy.root,
-				environment: options.environment,
-				config: options.config,
+				environment: options.service.environment,
+				config: options.service.config,
 				token: token
 			});
 

@@ -24,7 +24,7 @@ if (!selected) {
 	error("the service you specified is not available");
 }
 
-console.log("donejs - deploying to '" + selected.config.type + "\n");
+console.log("donejs - deploying to '" + selected.service.type + "\n");
 
-var files = glob.sync((deploy.root || "dist") + "/**/*.*");
-selected.service.deploy(packageJSON, deploy, selected.config, files, error);
+var files = glob.sync((deploy.root || "dist") + "/**/*");
+selected.service.service.deploy(packageJSON, deploy, selected.config, files, error);

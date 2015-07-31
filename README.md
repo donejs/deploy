@@ -104,7 +104,7 @@ The deploy property object of package.json.
 
 > `options` *{Object}*
 
-This is the configuration object of the selected service.
+This is the configuration object of the selected service. It has two properties, `name` which is the configuration name, and `service` which is the service configuration specific to your deployment.
 
 > `files` *{Array [String]}*
 

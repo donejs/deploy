@@ -76,7 +76,7 @@ module.exports = {
 		};
 
 		try {
-			var creds = options["credentials"];
+			var creds = options.service["credentials"];
 			if (_.isString(creds)) {
 				AWS.config.loadFromPath(path.resolve(creds));
 			} else {
@@ -91,7 +91,7 @@ module.exports = {
 
 		var S3 = new AWS.S3();
 
-		var bucket = options["bucket"];
+		var bucket = options.service["bucket"];
 		bucketExists(bucket).then(function(value){
 			uploadFiles(files, bucket);
 		}, function(err) {
