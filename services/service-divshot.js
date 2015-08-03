@@ -29,7 +29,9 @@ module.exports = {
 			], function(answers) {
 				if (answers.login) {
 					spawn(DIVSHOT_EXE, ["login"]).on("close", function(code) {
-						if (code) { defer.reject(); }
+						if (code) {
+							return defer.reject();
+						}
 						defer.resolve();
 					});
 				} else {
@@ -93,9 +95,13 @@ module.exports = {
 		try {
 			token = process.env.DIVSHOT_TOKEN || require(DIVSHOT_USER_CONFIG).token;
 			if (!token) { throw new Error("token not found"); }
+
+			pushToDivshot(token);
 		} catch (e) {
 			promptUserLogin().then(function(result) {
 				token = require(DIVSHOT_USER_CONFIG).token;
+
+				pushToDivshot(token);
 			}, function(err) {
 				console.log("\nCompletely understandable, but we are going to need that API token.")
 				console.log("You could always get it yourself. Just do the following:");
@@ -103,6 +109,5 @@ module.exports = {
 				console.log("   2. divshot login");
 			});
 		}
-		pushToDivshot(token);
 	}
 };
