@@ -5,7 +5,7 @@ var spawn = require("child_process").spawn,
 	q = require("q");
 
 var DIVSHOT_USER_CONFIG = process.env.HOME + "/.divshot/config/user.json";
-var DIVSHOT_EXE = process.env.PWD + "/node_modules/.bin/divshot";
+var DIVSHOT_EXE = require.resolve("divshot-cli");
 module.exports = {
 	properties: [{
 		name: "config",
