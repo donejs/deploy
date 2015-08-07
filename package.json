@@ -1,6 +1,6 @@
 {
   "name": "donejs-deploy",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "",
   "main": "donejs-deploy.js",
   "scripts": {
