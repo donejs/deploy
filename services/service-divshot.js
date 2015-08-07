@@ -55,7 +55,7 @@ module.exports = {
 			}
 			var status = push({
 				root: deploy.root,
-				environment: options.service.environment,
+				environment: environment,
 				config: options.service.config,
 				token: token
 			});
