@@ -44,8 +44,8 @@ module.exports = {
 		var pushToDivshot = function(token) {
 			var environment = options.service.environment;
 			if (!environment) {
-				if (_.includes(["development", "staging", "production"], options.name)) {
-					environment = options.name;
+				if (_.includes(["development", "staging", "production"], options.name[0])) {
+					environment = options.name[0];
 				} else {
 					console.log("An environment was not configured and the config name was not a valid environement.");
 					console.log("Defaulting to deploy to 'development'\n");
