@@ -89,6 +89,10 @@ module.exports = {
 				console.log(err);
 				console.log("Retrying ... ");
 			});
+
+			status.onError(function(msg){
+				console.error("Deployment error:", msg);
+			});
 		};
 
 		var token = null;
