@@ -41,5 +41,8 @@
     "mkdirp": "^0.5.1",
     "path-parse": "^1.0.5",
     "q": "^1.4.1"
+  },
+  "system": {
+    "npmDependencies": []
   }
 }
