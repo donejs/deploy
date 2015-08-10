@@ -53,7 +53,7 @@ A service that is marked as default is loaded when no argument is provided to th
 The name of the S3 bucket. If one is not created on S3, a bucket will be created with the name provided. If this property is not provided the value
 of the `name` property in `package.json` is used as default.
 
-> `services.<service name>.configPath` *{String}*
+> `services.<service name>.credentials` *{String}*
 
 The relative path to a file containing the two authentication properties: accessKeyId and secretAccessKey.  For example, `./aws.s3.json` would contain something like:
 
