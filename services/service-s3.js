@@ -56,6 +56,9 @@ module.exports = {
 		};
 
 		var uploadFile = function(path, bucket) {
+			var isDir = fs.lstatSync(path).isDirectory();
+			if(isDir) return;
+
 			S3.putObject({
 				ACL: "public-read",
 				Bucket: bucket,
