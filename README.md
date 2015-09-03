@@ -2,6 +2,7 @@
 
 * [Configuration](#configuration)
 	* [S3 Configuration Options](#s3-configuration-options)
+	* [Divshot Configuration Options](#divshot-configuration-options)
 * [Writing a New Service](#writing-a-new-service)
 
 The `donejs deploy` command allows you to bundle up your static assets not touched during the steal build process and deploy them and your JS bundles to a third-party storage/hosting provider like Amazon's S3.
@@ -66,6 +67,15 @@ The relative path to a file containing the two authentication properties: access
 If this property is not provided the default behavior is to read `S3_ACCESS_KEY_ID` and `S3_SECRET_ACCESS_KEY` from the nodejs environment.
 
 Read [Configuring the SDK in Node.js](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html) for more information about this topic.
+
+### Divshot Configuration Options
+> `services.<service name>.config` *{Object}*
+
+The Divshot [configuration object](http://docs.divshot.com/guides/configuration) specific to your deployment.
+
+> `services.<service name>.environment` *{String}*
+
+Which environment to push your files to: production, staging, development. Defaults to 'development'.
 
 ## Writing a New Service
 Create a file in the `services` directory where the name of the file matches the following convention: `service-*.js`. The `*` will be used as the value for the `package.donejs.deploy.<service name>.type` property. This file should export two properties: `properties` and `deploy`.
