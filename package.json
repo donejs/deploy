@@ -28,7 +28,7 @@
     "node": ">=0.10.0"
   },
   "bin": {
-    "donejs-deploy": "bin/donejs-deploy"
+    "deploy": "bin/deploy"
   },
   "dependencies": {
     "aws-sdk": "^2.1.40",
