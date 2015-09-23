@@ -14,9 +14,10 @@ module.exports = {
 		return { name: name, service: configured[name] };
 	},
 	_service: function(available, selected, error) {
-		return _.find(available, {"type": selected.service.type});
+		var s = _.find(available, {"type": selected.service.type});
+		return s && s.service;
 	},
-	_properties: function(service, selected, error) {
+	_properties: function(service, selected, package, error) {
 		_.map(service.properties, function(prop) {
 			if (!_.get(selected.service, prop.name)) {
 				var _default = _.get(prop, "default");
@@ -50,7 +51,8 @@ module.exports = {
 		}
 		return {
 			service: service,
-			config: this._properties(service, selected, error)
+			type: selected.service.type,
+			config: this._properties(service, selected, package, error)
 		};
 	}
 }
