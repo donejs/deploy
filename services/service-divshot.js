@@ -42,6 +42,7 @@ module.exports = {
 		};
 
 		var pushToDivshot = function(token) {
+			var dfd = q.defer();
 			var environment = options.service.environment;
 			if (!environment) {
 				if (_.includes(["development", "staging", "production"], options.name[0])) {
@@ -63,6 +64,7 @@ module.exports = {
 			status.onEnd(function(data) {
 				console.log("\nApplication deployed to: '" + data.environment + "'.");
 				console.log("You can view your app at the following URL: '" + data.url + "'");
+				dfd.resolve();
 			});
 
 			status.onApp("create", function(name) {
@@ -92,7 +94,9 @@ module.exports = {
 
 			status.onError(function(msg){
 				console.error("Deployment error:", msg);
+				dfd.reject(msg);
 			});
+			return dfd.promise;
 		};
 
 		var token = null;
@@ -100,12 +104,12 @@ module.exports = {
 			token = process.env.DIVSHOT_TOKEN || require(DIVSHOT_USER_CONFIG).token;
 			if (!token) { throw new Error("token not found"); }
 
-			pushToDivshot(token);
+			return pushToDivshot(token);
 		} catch (e) {
-			promptUserLogin().then(function(result) {
+			return promptUserLogin().then(function(result) {
 				token = require(DIVSHOT_USER_CONFIG).token;
 
-				pushToDivshot(token);
+				return pushToDivshot(token);
 			}, function(err) {
 				console.log("\nCompletely understandable, but we are going to need that API token.")
 				console.log("You could always get it yourself. Just do the following:");
