@@ -55,19 +55,21 @@ module.exports = {
 			return deferred.promise;
 		};
 
-		var uploadFile = function(path, bucket) {
+		var uploadFile = function(file, bucket) {
 			var isDir = fs.lstatSync(path).isDirectory();
 			if(isDir) return;
 
+			var parts = file.split(path.sep),
+				key = parts.slice(1, parts.length).join(path.sep);
 			S3.putObject({
 				ACL: "public-read",
 				Bucket: bucket,
-				Key: path,
-				Body: fs.readFileSync(path),
-				ContentType: mimeType.lookup(path)
+				Key: key,
+				Body: fs.readFileSync(file),
+				ContentType: mimeType.lookup(file)
 			}, function(err, data) {
 				if (err) { error(err); }
-				console.log("  + " + path);
+				console.log("  + " + file);
 			});
 		};
 
