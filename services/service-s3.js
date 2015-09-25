@@ -56,11 +56,12 @@ module.exports = {
 		};
 
 		var uploadFile = function(file, bucket) {
-			var isDir = fs.lstatSync(path).isDirectory();
+			var isDir = fs.lstatSync(file).isDirectory();
 			if(isDir) return;
 
 			var parts = file.split(path.sep),
 				key = parts.slice(1, parts.length).join(path.sep);
+
 			S3.putObject({
 				ACL: "public-read",
 				Bucket: bucket,
@@ -75,6 +76,7 @@ module.exports = {
 
 		var uploadFiles = function(files, bucket) {
 			console.log("Uploading:");
+
 			files.forEach(function(file) {
 				uploadFile(file, bucket);
 			});
