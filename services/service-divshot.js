@@ -28,7 +28,7 @@ module.exports = {
 				}
 			], function(answers) {
 				if (answers.login) {
-					spawn(DIVSHOT_EXE, ["login"]).on("close", function(code) {
+					spawn("node", [DIVSHOT_EXE, "login"]).on("close", function(code) {
 						if (code) {
 							return defer.reject();
 						}
