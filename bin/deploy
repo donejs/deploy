@@ -11,6 +11,4 @@ if (!packageJSON || !packageJSON.donejs || !packageJSON.donejs.deploy) {
 	error("the donejs section of package.json requires a 'deploy' property");
 }
 
-var deployName = (process.argv.length > 2) ? process.argv[2] : null;
-
-deploy(packageJSON, deployName);
+deploy(packageJSON, (process.argv.length > 2) ? process.argv[2] : null);

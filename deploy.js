@@ -20,10 +20,9 @@ module.exports = function(packageJSON, deployName){
 		error("the service you specified is not available");
 	}
 
-	console.log("donejs - deploying to '" + selected.type + "\n");
+	console.log("donejs - deploying to '" + selected.type + "'\n");
 
 	var files = glob.sync((deploy.root || "dist") + "/**/*");
 	return selected.service.deploy(packageJSON, deploy, selected.config,
 								   files, error);
 };
-

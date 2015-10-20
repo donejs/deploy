@@ -2,7 +2,7 @@
 
 * [Configuration](#configuration)
 	* [S3 Configuration Options](#s3-configuration-options)
-	* [Divshot Configuration Options](#divshot-configuration-options)
+	* [Firebase Configuration Options](#firebase-configuration-options)
 * [Writing a New Service](#writing-a-new-service)
 
 The `donejs deploy` command allows you to bundle up your static assets not touched during the steal build process and deploy them and your JS bundles to a third-party storage/hosting provider like Amazon's S3.
@@ -68,14 +68,10 @@ If this property is not provided the default behavior is to read `S3_ACCESS_KEY_
 
 Read [Configuring the SDK in Node.js](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html) for more information about this topic.
 
-### Divshot Configuration Options
+### Firebase Configuration Options
 > `services.<service name>.config` *{Object}*
 
-The Divshot [configuration object](http://docs.divshot.com/guides/configuration) specific to your deployment.
-
-> `services.<service name>.environment` *{String}*
-
-Which environment to push your files to: production, staging, development. Defaults to 'development'.
+The Firebase [configuration object](https://www.firebase.com/docs/hosting/guide/full-config.html) specific to your deployment.
 
 ## Writing a New Service
 Create a file in the `services` directory where the name of the file matches the following convention: `service-*.js`. The `*` will be used as the value for the `package.donejs.deploy.<service name>.type` property. This file should export two properties: `properties` and `deploy`.
@@ -102,7 +98,7 @@ function will be placed on the service object so that it can be accessed with th
 
 > `deploy` *{Function(package, deploy, options, files, err)}*
 
-The deploy is where the service's magic happens.
+The deploy function is where the service's magic happens.
 
 > `package` *{Object}*
 
@@ -110,7 +106,7 @@ The package.json object. Provided in case there are contextual project values yo
 
 > `deploy` *{Object}*
 
-The deploy property object of package.json.
+The deploy  property object of package.json.
 
 > `options` *{Object}*
 
