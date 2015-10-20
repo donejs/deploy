@@ -39,30 +39,34 @@ module.exports = {
         }
 
         function deployToFirebase(config) {
+            var defer = q.defer();
             console.log("donejs - deploying to '" + config.firebase + "'. Please be patient.");
             firebase.deploy.hosting(config).then(function() {
                 console.log("donejs - successfully deployed to '" + config.firebase + "'.");
-                process.exit(0);
+                defer.resolve();
             }).catch(function(err) {
-                error(err);
-                process.exit(1);
+                defer.reject(err);
+            });
+            return defer.promise;
+        }
+
+        var adf = q.defer();
+        if (process.env.FIREBASE_TOKEN) {
+            adf.resolve(process.env.FIREBASE_TOKEN);
+        } else {
+            authenticate().then(function(token) {
+                adf.resolve(token);
             });
         }
 
-        var defer = q.defer();
-        if (process.env.FIREBASE_TOKEN) {
-            defer.resolve(process.env.FIREBASE_TOKEN);
-        } else {
-            authenticate().then(function(token) {
-                defer.resolve(token);
+        var ddf = q.defer();
+        adf.promise.then(function(token) {
+            deployToFirebase(createConfig(token)).then(function() {
+                ddf.resolve();
+            }, function(err) {
+                ddf.reject(err);
             });
-        }
-        defer.promise.then(function(token) {
-            try {
-                deployToFirebase(createConfig(token));
-            } catch (e) {
-                error(e);
-            }
         });
+        return ddf.promise;
 	}
 };
