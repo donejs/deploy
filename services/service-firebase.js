@@ -1,4 +1,4 @@
-var spawn = require("child_process").spawn,
+var spawn = require("cross-spawn-async"),
     fs = require("fs")
 	_ = require("lodash"),
 	firebase = require("firebase-tools"),
