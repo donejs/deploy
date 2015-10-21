@@ -44,10 +44,13 @@ module.exports = {
 		});
 	},
 	selected: function(package, specified, configured, available, error) {
-		var selected = this._selected(specified, configured);
+        var selected = this._selected(specified, configured);
+        if (!selected) {
+            error("donejs.deploy.services property requires at least one configured service.");
+        }
 		var service = this._service(available, selected, error);
 		if (!service) {
-			error("'"+  selected.service.type + "' is not supported.");
+			error("'"+  selected.service.type + "' is not supported as a service.");
 		}
 		return {
 			service: service,
