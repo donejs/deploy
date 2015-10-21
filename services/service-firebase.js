@@ -2,7 +2,10 @@ var spawn = require("cross-spawn-async"),
     fs = require("fs")
 	_ = require("lodash"),
 	firebase = require("firebase-tools"),
-	q = require("q");
+	q = require("q"),
+	selfDestruct = require("self-destruct");
+
+var FIREBASE_EXE = require.resolve("firebase-tools/bin/firebase");
 
 module.exports = {
 	properties: [{
@@ -13,8 +16,10 @@ module.exports = {
         }
 	}],
 	deploy: function(package, deploy, options, files, error) {
+		hasOwnFirebaseJSON = false;
+
         function authenticate() {
-            var token = spawn("firebase", ["prefs:token"]),
+            var token = spawn("node", [FIREBASE_EXE, "prefs:token"]),
                 defer = q.defer();
             token.stdout.on("data", function(data) {
                 defer.resolve(data.toString());
@@ -33,21 +38,44 @@ module.exports = {
             var config = options.config || options.service.config;
             if (_.isEmpty(config)) {
                 config = require(process.cwd() + "/firebase.json");
+				hasOwnFirebaseJSON = true;
             }
             _.assign(config, { token: token, cwd: config.public });
             return config;
         }
 
         function deployToFirebase(config) {
-            var defer = q.defer();
             console.log("donejs - deploying to '" + config.firebase + "'. Please be patient.");
-            firebase.deploy.hosting(config).then(function() {
-                console.log("donejs - successfully deployed to '" + config.firebase + "'.");
-                defer.resolve();
-            }).catch(function(err) {
-                defer.reject(err);
-            });
-            return defer.promise;
+			config.ignore = config.ignore || [];
+
+			var doDeploy = function(){
+				return firebase.deploy.hosting(config).then(function() {
+					console.log("donejs - successfully deployed to '" + config.firebase + "'.");
+				});
+			};
+
+			var deployPromise;
+
+			if(hasOwnFirebaseJSON) {
+				deployPromise = doDeploy();
+			} else {
+				var firebaseJsonPath = process.cwd() + "/firebase.json";
+				var content = JSON.stringify(config);
+				 deployPromise = selfDestruct(firebaseJsonPath, content, "utf8")
+					.then(function(destroy){
+						var deployPromise = doDeploy();
+						deployPromise.then(destroy, destroy);
+						return deployPromise;
+					});
+			}
+
+			return deployPromise.then(null, function(err){
+				if(/Invalid Firebase/.test(err.message)) {
+					console.error("The app", config.firebase, "does not exist.",
+								  "Please go to https://www.firebase.com/account/ and create it, then rerun the deploy");
+				}
+				throw err;
+			});
         }
 
         var adf = q.defer();
