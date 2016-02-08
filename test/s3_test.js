@@ -19,7 +19,7 @@ describe("s3", function(){
 
 		var pkg = {};
 		var deployConfig = {
-			root: __dirname + "/tests/dist",
+			root: "tests/dist",
 			services: {
 				production: {
 					type: "s3",
@@ -34,6 +34,8 @@ describe("s3", function(){
 		deploy(pkg).then(function(){
 			assert(true, "request finished successfully");
 			done();
+		}, function(err){
+			done(err);
 		});
 	});
 });
