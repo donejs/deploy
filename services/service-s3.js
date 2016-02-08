@@ -5,6 +5,10 @@ var fs = require("fs"),
 	q = require("q");
 	AWS = require("aws-sdk");
 
+if(typeof Promise === "undefined") {
+	var Promise = require("promise");
+}
+
 module.exports = {
 	properties: [{
 		name: "bucket",
@@ -62,24 +66,29 @@ module.exports = {
 			var parts = file.split(path.sep),
 				key = parts.slice(1, parts.length).join(path.sep);
 
-			S3.putObject({
-				ACL: "public-read",
-				Bucket: bucket,
-				Key: key,
-				Body: fs.readFileSync(file),
-				ContentType: mimeType.lookup(file)
-			}, function(err, data) {
-				if (err) { error(err); }
-				console.log("  + " + file);
+			return new Promise(function(resolve, reject){
+				S3.putObject({
+					ACL: "public-read",
+					Bucket: bucket,
+					Key: key,
+					Body: fs.readFileSync(file),
+					ContentType: mimeType.lookup(file)
+				}, function(err, data) {
+					if (err) { return error(err); }
+					console.log("  + " + file);
+					resolve();
+				});
 			});
 		};
 
 		var uploadFiles = function(files, bucket) {
 			console.log("Uploading:");
 
-			files.forEach(function(file) {
-				uploadFile(file, bucket);
+			var promises = files.map(function(file) {
+				return uploadFile(file, bucket);
 			});
+
+			return Promise.all(promises);
 		};
 
 		try {
@@ -100,7 +109,7 @@ module.exports = {
 
 		var bucket = options.service.bucket;
 		return bucketExists(bucket).then(function(value){
-			uploadFiles(files, bucket);
+			return uploadFiles(files, bucket);
 		}, function(err) {
 			return createBucket(bucket).then(function(value) {
 				return uploadFiles(files, bucket)
