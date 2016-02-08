@@ -14,6 +14,7 @@ if (!packageJSON || !packageJSON.donejs || !packageJSON.donejs.deploy) {
 var packageName = (process.argv.length > 2) ? process.argv[2] : null;
 deploy(packageJSON, packageName).then(function() {
     process.exit(0);
-}, function(){
-	process.exit(0);
+}, function(err){
+	console.error(err);
+	process.exit(1);
 });
