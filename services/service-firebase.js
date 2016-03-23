@@ -3,7 +3,8 @@ var spawn = require("cross-spawn-async"),
 	_ = require("lodash"),
 	firebase = require("firebase-tools"),
 	q = require("q"),
-	selfDestruct = require("self-destruct");
+	selfDestruct = require("self-destruct"),
+	debug = require("debug")("deploy:firebase");
 
 var FIREBASE_EXE = require.resolve("firebase-tools/bin/firebase");
 
@@ -56,6 +57,8 @@ module.exports = {
 
 			var deployPromise;
 
+			debug("Have FirebaseJSON: %s", hasOwnFirebaseJSON);
+
 			if(hasOwnFirebaseJSON) {
 				deployPromise = doDeploy();
 			} else {
@@ -79,9 +82,11 @@ module.exports = {
         }
 
         var adf = q.defer();
+		debug("Have firebase token: %s", !!process.env.FIREBASE_TOKEN);
         if (process.env.FIREBASE_TOKEN) {
             adf.resolve(process.env.FIREBASE_TOKEN);
         } else {
+			debug("Environment variables: %o", process.env);
             authenticate().then(function(token) {
                 adf.resolve(token);
             });
