@@ -1,5 +1,7 @@
 # donejs deploy
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/donejs/deploy.svg)](https://greenkeeper.io/)
+
 * [Configuration](#configuration)
 	* [S3 Configuration Options](#s3-configuration-options)
 	* [Firebase Configuration Options](#firebase-configuration-options)
